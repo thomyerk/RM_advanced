@@ -12,7 +12,7 @@ function App() {
 	let locationsButton = process.env.PUBLIC_URL + "/img/locations.jpg"
 	const [characterPages, setCharacterPages] = useState(1)
 	const [locationPages, setLocationPages] = useState(1)
-	const [offset, setOffset] = useState(1)
+	//const [offset, setOffset] = useState(1)
 	const [content, setContent] = useState("description")
 
 	const locations = useLocations(locationPages)
