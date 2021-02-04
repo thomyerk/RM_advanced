@@ -10,17 +10,18 @@ import Locations from "./components/Locations"
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg"
 	let locationsButton = process.env.PUBLIC_URL + "/img/locations.jpg"
-	const [page, setPage] = useState(1)
+	const [characterPages, setCharacterPages] = useState(1)
+	const [locationPages, setLocationPages] = useState(1)
 	const [offset, setOffset] = useState(1)
-	const [pageCount, setPageCount] = useState(1)
 	const [content, setContent] = useState("description")
 
-	const locations = useLocations(page)
-	const characters = useCharacters(page)
-	//locations is megkapja a paget - nincs annyi mint characternél
+	const locations = useLocations(locationPages)
+	const characters = useCharacters(characterPages)
 
 	const handlePageClick = (e) => {
-		setPage(e.selected + 1)
+		content === "characters"
+			? setCharacterPages(e.selected + 1)
+			: setLocationPages(e.selected + 1)
 	}
 
 	// useEffect(() => {
@@ -30,17 +31,12 @@ function App() {
 	let charactersFetched = []
 	let locationsFetched = []
 
-	let pages = 1
 	if (characters !== "Loading...") {
 		charactersFetched = characters
-		pages = characters.info.pages
 	}
 	if (locations !== "Loading...") {
 		locationsFetched = locations
-		pages = locations.info.pages
 	}
-
-	//setPageCount(pages)
 	return (
 		<div className="App">
 			<Logo onClick={() => setContent("description")} />
@@ -70,21 +66,6 @@ function App() {
 			) : (
 				<Infotext />
 			)}
-
-			{/* <ReactPaginate
-				previousLabel={"prev"}
-				nextLabel={"next"}
-				breakLabel={"..."}
-				breakClassName={"break-me"}
-				pageCount={pageCount}
-				marginPagesDisplayed={2}
-				pageRangeDisplayed={5}
-				onPageChange={handlePageClick}
-				containerClassName={"pagination"}
-				subContainerClassName={"pages pagination"}
-				activeClassName={"active"}
-				onClick={(e) => handlePageClick(e)}
-			/> */}
 		</div>
 	)
 }
