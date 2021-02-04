@@ -3,21 +3,24 @@ import "./style.css"
 import "./App.css"
 import { useCharacters, useLocations } from "./api/useData"
 import Logo from "./components/Logo"
-import Buttons from "./components/Buttons"
 import Infotext from "./components/Description"
-import ReactPaginate from "react-paginate"
+import Characters from "./components/Characters"
+import Locations from "./components/Locations"
 
 function App() {
-	const locations = useLocations(1)
-
+	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg"
+	let locationsButton = process.env.PUBLIC_URL + "/img/locations.jpg"
 	const [page, setPage] = useState(1)
 	const [offset, setOffset] = useState(1)
-	const [pageCount, setPageCount] = useState(34)
+	const [pageCount, setPageCount] = useState(1)
+	const [content, setContent] = useState("description")
 
+	const locations = useLocations(page)
 	const characters = useCharacters(page)
+	//locations is megkapja a paget - nincs annyi mint characternél
 
 	const handlePageClick = (e) => {
-		setPage(e.selected)
+		setPage(e.selected + 1)
 	}
 
 	// useEffect(() => {
@@ -25,27 +28,50 @@ function App() {
 	// }, [offset])
 
 	let charactersFetched = []
-	let pages = 0
-	if (characters != "Loading...") {
-		charactersFetched = characters.results
+	let locationsFetched = []
+
+	let pages = 1
+	if (characters !== "Loading...") {
+		charactersFetched = characters
 		pages = characters.info.pages
-		console.log(pages)
+	}
+	if (locations !== "Loading...") {
+		locationsFetched = locations
+		pages = locations.info.pages
 	}
 
+	//setPageCount(pages)
 	return (
 		<div className="App">
-			<Logo />
-			<Buttons />
-			<Infotext />
+			<Logo onClick={() => setContent("description")} />
+			<div id="openbuttons">
+				<img
+					src={charactersButton}
+					alt={"charactersButton"}
+					onClick={() => setContent("characters")}
+				/>
+				<img
+					src={locationsButton}
+					alt={"locationsButton"}
+					onClick={() => setContent("locations")}
+				/>
+			</div>
 
-			{charactersFetched.map((character) => (
-				<div key={character.id} className="characterCard">
-					<h1>{character.name}</h1>
-					<img src={character.image} />
-					<p>{character.species}</p>
-				</div>
-			))}
-			<ReactPaginate
+			{content === "characters" ? (
+				<Characters
+					characters={charactersFetched}
+					handlePageClick={handlePageClick}
+				/>
+			) : content === "locations" ? (
+				<Locations
+					locations={locationsFetched}
+					handlePageClick={handlePageClick}
+				/>
+			) : (
+				<Infotext />
+			)}
+
+			{/* <ReactPaginate
 				previousLabel={"prev"}
 				nextLabel={"next"}
 				breakLabel={"..."}
@@ -58,7 +84,7 @@ function App() {
 				subContainerClassName={"pages pagination"}
 				activeClassName={"active"}
 				onClick={(e) => handlePageClick(e)}
-			/>
+			/> */}
 		</div>
 	)
 }
