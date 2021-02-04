@@ -1,5 +1,5 @@
-body,
-html {
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@300&display=swap%27");
+body {
   margin: 0;
   padding: 0;
   background-color: #000000;
@@ -7,7 +7,7 @@ html {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Londrina Solid";
   color: #fdfac2;
   font-size: 1.2rem;
   text-align: justify;
