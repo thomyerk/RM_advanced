@@ -60,6 +60,16 @@ ul.pagination {
 	align-items: center;
 	margin: 10px;
 	padding: 10px;
+	
+}
+
+
+.location {
+	cursor: pointer;
+}
+
+.listCard img {
+	cursor: pointer;
 }
 
 .listCard p {
@@ -87,6 +97,7 @@ ul.pagination {
 	width: 60%;
 	font-size: 1.5rem;
 	font-weight: bold;
+	outline: none;
 }
 .popUpData {
 	color: rgb(196, 131, 10);
