@@ -16,6 +16,7 @@ export default function UniversalModal({ displayData, open, closeHandler }) {
 							<span className="popUpData">{elem[1]}</span>
 						</p>
 					)
+				return null
 			})}
 		</div>
 	)
