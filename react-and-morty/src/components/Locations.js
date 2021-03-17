@@ -20,7 +20,7 @@ export default function Locations(props) {
 	}
 	const locationData = Object.entries(actualLocation)
 	return (
-		<div>
+		<>
 			{locationsFetched.map((location) => (
 				<div
 					key={location.id}
@@ -49,6 +49,6 @@ export default function Locations(props) {
 				subContainerClassName={"pages pagination"}
 				activeClassName={"active"}
 			/>
-		</div>
+		</>
 	)
 }

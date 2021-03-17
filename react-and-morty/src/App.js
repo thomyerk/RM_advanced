@@ -3,7 +3,7 @@ import "./style.css"
 import "./App.css"
 import { useCharacters, useLocations } from "./api/useData"
 import Logo from "./components/Logo"
-import Infotext from "./components/Description"
+import Description from "./components/Description"
 import Characters from "./components/Characters"
 import Locations from "./components/Locations"
 
@@ -48,20 +48,21 @@ function App() {
 					onClick={() => setContent("locations")}
 				/>
 			</div>
-
-			{content === "characters" ? (
-				<Characters
-					characters={charactersFetched}
-					handlePageClick={handlePageClick}
-				/>
-			) : content === "locations" ? (
-				<Locations
-					locations={locationsFetched}
-					handlePageClick={handlePageClick}
-				/>
-			) : (
-				<Infotext />
-			)}
+			<div className="content">
+				{content === "characters" ? (
+					<Characters
+						characters={charactersFetched}
+						handlePageClick={handlePageClick}
+					/>
+				) : content === "locations" ? (
+					<Locations
+						locations={locationsFetched}
+						handlePageClick={handlePageClick}
+					/>
+				) : (
+					<Description />
+				)}
+			</div>
 		</div>
 	)
 }

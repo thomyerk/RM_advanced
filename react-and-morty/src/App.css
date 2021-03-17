@@ -1,15 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@300&display=swap%27");
+
 :root {
 	--pagination-color: #a5dd1a;
 }
 
-.pagination {
-	margin: 15px auto;
+.App {
 	display: flex;
-	list-style: none;
+	justify-content: center;
+	flex-direction: column;
+	font-family: "Londrina Solid";
+	color: #fdfac2;
+	font-size: 1.2rem;
+	text-align: justify;
+	text-justify: inter-word;
+}
+
+.content {
+	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+@media screen and (min-width: 1000px) {
+	.listCard {
+		width: 25%;
+		height: 12rem;
+	}
+}
+
+@media screen and (max-width: 1100px) {
+	.listCard {
+		width: 70%;
+		padding: 20px;
+	}
+	.content {
+		width: 80vw;
+	}
+	.popUpCard {
+		font-size: 1.5rem;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	.listCard {
+		width: 90% !important;
+		font-size: medium;
+		padding: 0;
+	}
+	.content {
+		display: flex;
+		flex-direction: column;
+	}
+	.listCard img {
+		max-width: 80%;
+	}
+	.pagination {
+		font-size: 0.8rem;
+	}
+	.popUpCard {
+		width: 80%;
+		font-size: 1.1rem;
+	}
+}
+
+.listCard {
+	background-image: url("backgroundPic.png");
+	background-position: center;
+	background-size: 100%;
+	border: solid 2px palegoldenrod;
+	border-radius: 8px;
+	align-items: center;
+	text-align: center;
+	margin: 10px;
+}
+
+.listCard img {
+	border-radius: 7px;
+	box-shadow: 1px 1px 5px black;
+	cursor: pointer;
+}
+
+.listCard p {
+	text-shadow: 1px 1px 5px black;
+	font-size: 1.8rem;
+}
+
+.listCard h1 {
+	text-shadow: 1px 1px 5px black;
+	text-align: center;
+}
+
+.modal {
+	padding: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: "Londrina Solid";
+}
+.popUpCard {
+	color: #406606;
+	background-color: whitesmoke;
+	opacity: 0.85;
+	padding: 20px;
+	border: solid 10px #68a50a;
+	border-radius: 30px;
+	width: 80%;
+	font-weight: bold;
 	outline: none;
+}
+.popUpData {
+	color: rgb(196, 131, 10);
+}
+
+.popUpCard p {
+	margin: 5px;
+	overflow-wrap: break-word;
 }
 
 ul.pagination {
+	width: 100%;
+	list-style: none;
+	outline: none;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -48,62 +161,6 @@ ul.pagination {
 	border-radius: unset;
 }
 
-.listCard {
-	background-image: url("backgroundPic.png");
-	background-position: center;
-	background-size: 100%;
-	border: solid 2px palegoldenrod;
-	border-radius: 8px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 10px;
-	padding: 10px;
-	
-}
-
-
 .location {
 	cursor: pointer;
-}
-
-.listCard img {
-	cursor: pointer;
-}
-
-.listCard p {
-	text-shadow: 1px 1px 5px black;
-	font-size: 1.8rem;
-}
-
-.listCard h1 {
-	text-shadow: 1px 1px 5px black;
-}
-
-.modal {
-	padding: 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.popUpCard {
-	color: #406606;
-	background-color: whitesmoke;
-	opacity: 0.85;
-	padding: 20px;
-	border: solid 10px #68a50a;
-	border-radius: 30px;
-	width: 60%;
-	font-size: 1.5rem;
-	font-weight: bold;
-	outline: none;
-}
-.popUpData {
-	color: rgb(196, 131, 10);
-}
-
-.listCard img {
-	border-radius: 7px;
-	box-shadow: 1px 1px 5px black;
 }

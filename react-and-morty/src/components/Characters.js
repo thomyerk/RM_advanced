@@ -22,7 +22,7 @@ export default function Characters(props) {
 	const characterData = Object.entries(actualCharacter)
 
 	return (
-		<div>
+		<>
 			{charactersFetched.map((character) => (
 				<div key={character.id} className="listCard">
 					<h1>{character.name}</h1>
@@ -48,12 +48,12 @@ export default function Characters(props) {
 				breakClassName={"break-me"}
 				pageCount={pages}
 				marginPagesDisplayed={2}
-				pageRangeDisplayed={5}
+				pageRangeDisplayed={3}
 				onPageChange={props.handlePageClick}
 				containerClassName={"pagination"}
 				subContainerClassName={"pages pagination"}
 				activeClassName={"active"}
 			/>
-		</div>
+		</>
 	)
 }

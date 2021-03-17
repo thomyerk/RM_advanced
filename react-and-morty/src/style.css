@@ -1,39 +1,31 @@
-@import url("https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@300&display=swap%27");
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #000000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  font-family: "Londrina Solid";
-  color: #fdfac2;
-  font-size: 1.2rem;
-  text-align: justify;
-  text-justify: inter-word;
+	margin: 0;
+	padding: 0;
+	background-color: #000000;
 }
 #openimage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 #openimage img {
-  max-width: 60vh;
-  max-height: 60vh;
+	max-width: 60vw;
+	max-height: 60vh;
 }
 #openbuttons {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }
 #openbuttons img {
-  max-width: 35vh;
-  max-height: 35vh;
-  border-radius: 10px;
-  margin: 20px;
+	max-width: 35vw;
+	max-height: 35vh;
+	border-radius: 10px;
+	margin: 20px;
 }
-#desc {
-  max-width: 80vh;
-  margin: 20px;
-}
+/* #desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 2rem;
+} */
