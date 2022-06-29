@@ -27,7 +27,9 @@ You can look up the possible values on the [Rick&Morty Api Documentation page](h
 <br>
 
 ### **3: Episode tab**
-Extend the current two tabs (characters and locations) with an "Episodes" tab that also has the live search developed in [Task 1](#task1). Clicking on an episode card should bring up a modal that contains the current episodes name, it's airing date, the episode identifier (S00E00) and the pictures of all available characters in that episode.
+Extend the current two tabs (characters and locations) with an "Episodes" tab that also has the live search developed in [Task 1](#task1). Clicking on an episode card should bring up a modal that contains the current episodes name, it's airing date, the episode identifier (S00E00) and the pictures of all available characters in that episode. The character pictures should be clickable, and should navigat to the filtered characters screen. 
+
+*For example if you click on Rick Sanchez on episode 1, you should be navigated to the characters screen with the results filtered down to Rick Sanchez.*
 
 <br>
 
