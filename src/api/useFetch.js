@@ -8,7 +8,6 @@ import { useState, useEffect } from "react"
 export const useFetch = (initUrl) => {
 	const [url, setUrl] = useState(initUrl)
 	const [data, setData] = useState(undefined)
-	console.log("url used", url)
 
 	useEffect(() => {
 		fetch(url)

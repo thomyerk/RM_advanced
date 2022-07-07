@@ -1,13 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import UniversalModal from "./Modal"
 import ReactPaginate from "react-paginate"
 import SearchBar from "./SearchBar"
+import useLocalStorage from "./assets/useLocalStorage"
 
 export default function Locations(props) {
 	const locationsFetched = props.locations.results
 	const pages = props.locations.info.pages
 	const [open, setOpen] = useState(false)
 	const [actualLocation, setActualLocation] = useState("")
+	const [history, setHistory] = useLocalStorage("history", [])
 
 	const handleOpen = (target) => {
 		setActualLocation(
@@ -15,6 +17,12 @@ export default function Locations(props) {
 		)
 		setOpen(true)
 	}
+
+	useEffect(() => {
+		if (actualLocation !== "") {
+			setHistory([...history, actualLocation.name])
+		}
+	}, [actualLocation])
 
 	const handleClose = () => {
 		setOpen(false)

@@ -1,14 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import UniversalModal from "./Modal"
 import ReactPaginate from "react-paginate"
-import SearchBar from './SearchBar'
+import SearchBar from "./SearchBar"
+import useLocalStorage from "./assets/useLocalStorage"
 
 export default function Characters(props) {
-	console.log('char props', props);
 	const charactersFetched = props.characters.results
 	const pages = props.characters.info.pages
 	const [open, setOpen] = useState(false)
 	const [actualCharacter, setActualCharacter] = useState("")
+	const [history, setHistory] = useLocalStorage("history", [])
 
 	const handleOpen = (target) => {
 		setActualCharacter(
@@ -20,6 +21,12 @@ export default function Characters(props) {
 	const handleClose = () => {
 		setOpen(false)
 	}
+
+	useEffect(() => {
+		if (actualCharacter !== "") {
+			setHistory([...history, actualCharacter.name])
+		}
+	}, [actualCharacter])
 
 	const characterData = Object.entries(actualCharacter)
 
@@ -39,7 +46,6 @@ export default function Characters(props) {
 				</div>
 			))}
 			asdsdasdas
-
 			<UniversalModal
 				displayData={characterData}
 				open={open}

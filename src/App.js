@@ -6,7 +6,7 @@ import Logo from "./components/Logo"
 import Description from "./components/Description"
 import Characters from "./components/Characters"
 import Locations from "./components/Locations"
-import SearchBar from "./components/SearchBar"
+import History from "./components/History"
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg"
@@ -26,14 +26,6 @@ function App() {
 			: setLocationPages(e.selected + 1)
 		window.scrollTo(0, 0)
 	}
-
-	useEffect(() => {
-		console.log("mount")
-
-		return () => {
-			console.log("unmount")
-		}
-	}, [])
 
 	let charactersFetched = []
 	let locationsFetched = []
@@ -76,6 +68,7 @@ function App() {
 					<Description />
 				)}
 			</div>
+			<History />
 		</div>
 	)
 }

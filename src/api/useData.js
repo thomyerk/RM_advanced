@@ -12,12 +12,10 @@ import { mainUrls } from "./dataRoutes.js"
 export const useCharacters = (pageNum = 1, filteredCharacter) => {
 	console.log("usechar happened")
 
-	const [characters, setUrl] = useFetch()
+	const [characters, setUrl] = useFetch(mainUrls(pageNum).characters)
+
 	useEffect(() => {
-		setUrl(mainUrls(pageNum, filteredCharacter).characterSearchRoute)
-	}, [filteredCharacter])
-	useEffect(() => {
-		setUrl(mainUrls(pageNum, filteredCharacter).characterSearchRoute)
+		setUrl(mainUrls(pageNum).characters)
 	}, [pageNum])
 	return characters === undefined ? "Loading..." : characters
 }
