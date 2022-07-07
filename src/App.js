@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react"
 import "./style.css"
 import "./App.css"
-import { useCharacters, useLocations } from "./api/useData"
+import {
+	useSearchForLocation,
+	useCharacters,
+	useLocations,
+	useSearchForCharacter,
+} from "./api/useData"
 import Logo from "./components/Logo"
 import Description from "./components/Description"
 import Characters from "./components/Characters"
 import Locations from "./components/Locations"
+<<<<<<< HEAD
 import History from "./components/History"
+=======
+import SearchBar from "./components/SearchBar"
+>>>>>>> efcc54491a89ae4e8d27ccd5200ce1ee4159aab2
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg"
@@ -31,10 +40,10 @@ function App() {
 	let locationsFetched = []
 
 	if (characters !== "Loading...") {
-		charactersFetched = characters
+		setCharacters(useCharacters(characterPages))
 	}
 	if (locations !== "Loading...") {
-		locationsFetched = locations
+		setLocations(useLocations(locationPages))
 	}
 	return (
 		<div className="App">
@@ -52,6 +61,9 @@ function App() {
 				/>
 			</div>
 			<div className="content">
+				{content !== "description" && (
+					<SearchBar setSearch={setSearchTerm} value={searchTerm} />
+				)}
 				{content === "characters" ? (
 					<Characters
 						characters={charactersFetched}
