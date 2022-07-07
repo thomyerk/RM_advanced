@@ -11,11 +11,7 @@ import Logo from "./components/Logo"
 import Description from "./components/Description"
 import Characters from "./components/Characters"
 import Locations from "./components/Locations"
-<<<<<<< HEAD
 import History from "./components/History"
-=======
-import SearchBar from "./components/SearchBar"
->>>>>>> efcc54491a89ae4e8d27ccd5200ce1ee4159aab2
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg"
