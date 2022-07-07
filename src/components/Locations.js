@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import UniversalModal from "./Modal"
 import ReactPaginate from "react-paginate"
+import SearchBar from "./SearchBar"
 
 export default function Locations(props) {
 	const locationsFetched = props.locations.results
@@ -19,8 +20,11 @@ export default function Locations(props) {
 		setOpen(false)
 	}
 	const locationData = Object.entries(actualLocation)
+	console.log("locationsFetched", locationsFetched)
+
 	return (
 		<>
+			<SearchBar filter={props.filter} />
 			{locationsFetched.map((location) => (
 				<div
 					key={location.id}

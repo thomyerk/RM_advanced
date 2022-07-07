@@ -9,10 +9,15 @@ import { mainUrls } from "./dataRoutes.js"
      *
      * @param pageNum integer that gives the pagination page number. The json `info` property contains how many pages are.
      */
-export const useCharacters = (pageNum = 1) => {
-	const [characters, setUrl] = useFetch(mainUrls.characters + pageNum)
+export const useCharacters = (pageNum = 1, filteredCharacter) => {
+	console.log("usechar happened")
+
+	const [characters, setUrl] = useFetch()
 	useEffect(() => {
-		setUrl(mainUrls.characters + pageNum)
+		setUrl(mainUrls(pageNum, filteredCharacter).characterSearchRoute)
+	}, [filteredCharacter])
+	useEffect(() => {
+		setUrl(mainUrls(pageNum, filteredCharacter).characterSearchRoute)
 	}, [pageNum])
 	return characters === undefined ? "Loading..." : characters
 }
@@ -24,10 +29,15 @@ export const useCharacters = (pageNum = 1) => {
      *
      * @param pageNum integer that gives the pagination page number. The json `info` property contains how many pages are.
      */
-export const useLocations = (pageNum = 1) => {
-	const [locations, setUrl] = useFetch(mainUrls.locations + pageNum)
+export const useLocations = (pageNum = 1, filteredLocation) => {
+	console.log("useloc happened")
+
+	const [locations, setUrl] = useFetch()
 	useEffect(() => {
-		setUrl(mainUrls.locations + pageNum)
+		setUrl(mainUrls(pageNum, filteredLocation).locationSearchRoute)
+	}, [filteredLocation])
+	useEffect(() => {
+		setUrl(mainUrls(pageNum, filteredLocation).locationSearchRoute)
 	}, [pageNum])
 	return locations === undefined ? "Loading..." : locations
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "./style.css"
 import "./App.css"
 import { useCharacters, useLocations } from "./api/useData"
@@ -6,16 +6,19 @@ import Logo from "./components/Logo"
 import Description from "./components/Description"
 import Characters from "./components/Characters"
 import Locations from "./components/Locations"
+import SearchBar from "./components/SearchBar"
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg"
-	let locationsButton = process.env.PUBLIC_URL + "/img/locations.jpg"
+	let locationsButton = process.env.PUBLIC_URL + "/img/locatigions.jpg"
 	const [characterPages, setCharacterPages] = useState(1)
 	const [locationPages, setLocationPages] = useState(1)
 	const [content, setContent] = useState("description")
+	const [locationFilter, setLocationFilter] = useState(null)
+	const [characterFilter, setCharacterFilter] = useState(null)
 
-	const locations = useLocations(locationPages)
-	const characters = useCharacters(characterPages)
+	const locations = useLocations(locationPages, locationFilter)
+	const characters = useCharacters(characterPages, characterFilter)
 
 	const handlePageClick = (e) => {
 		content === "characters"
@@ -23,6 +26,14 @@ function App() {
 			: setLocationPages(e.selected + 1)
 		window.scrollTo(0, 0)
 	}
+
+	useEffect(() => {
+		console.log("mount")
+
+		return () => {
+			console.log("unmount")
+		}
+	}, [])
 
 	let charactersFetched = []
 	let locationsFetched = []
@@ -53,11 +64,13 @@ function App() {
 					<Characters
 						characters={charactersFetched}
 						handlePageClick={handlePageClick}
+						filter={setCharacterFilter}
 					/>
 				) : content === "locations" ? (
 					<Locations
 						locations={locationsFetched}
 						handlePageClick={handlePageClick}
+						filter={setLocationFilter}
 					/>
 				) : (
 					<Description />

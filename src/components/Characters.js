@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import UniversalModal from "./Modal"
 import ReactPaginate from "react-paginate"
+import SearchBar from './SearchBar'
 
 export default function Characters(props) {
+	console.log('char props', props);
 	const charactersFetched = props.characters.results
 	const pages = props.characters.info.pages
 	const [open, setOpen] = useState(false)
@@ -23,6 +25,7 @@ export default function Characters(props) {
 
 	return (
 		<>
+			<SearchBar filter={props.filter} />
 			{charactersFetched.map((character) => (
 				<div key={character.id} className="listCard">
 					<h1>{character.name}</h1>
@@ -35,6 +38,7 @@ export default function Characters(props) {
 					<p>{character.species}</p>
 				</div>
 			))}
+			asdsdasdas
 
 			<UniversalModal
 				displayData={characterData}

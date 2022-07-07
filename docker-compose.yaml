@@ -1,0 +1,11 @@
+services:
+  react-app:
+    container_name: react_morty
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/usr/src/app/src
+    tty: true
+    ports:
+      - "8080:3000"
