@@ -1,11 +1,17 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "./style.css"
 import "./App.css"
-import { useCharacters, useLocations } from "./api/useData"
+import {
+	useSearchForLocation,
+	useCharacters,
+	useLocations,
+	useSearchForCharacter,
+} from "./api/useData"
 import Logo from "./components/Logo"
 import Description from "./components/Description"
 import Characters from "./components/Characters"
 import Locations from "./components/Locations"
+import SearchBar from "./components/SearchBar"
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg"
@@ -13,9 +19,23 @@ function App() {
 	const [characterPages, setCharacterPages] = useState(1)
 	const [locationPages, setLocationPages] = useState(1)
 	const [content, setContent] = useState("description")
+	const [searchTerm, setSearchTerm] = useState(null)
 
-	const locations = useLocations(locationPages)
-	const characters = useCharacters(characterPages)
+	useEffect(() => {
+		if (content === "characters") {
+			useSearchForCharacter(characterPages, searchTerm)
+		}
+		if (content === "locations") {
+			useSearchForLocation(locationPages, searchTerm)
+		}
+	}, [searchTerm])
+
+	useEffect(() => {
+		const locations = useLocations(locationPages)
+		const characters = useCharacters(characterPages)
+		setCharacters(characters)
+		setLocations(locations)
+	}, [third])
 
 	const handlePageClick = (e) => {
 		content === "characters"
@@ -28,10 +48,10 @@ function App() {
 	let locationsFetched = []
 
 	if (characters !== "Loading...") {
-		charactersFetched = characters
+		setCharacters(useCharacters(characterPages))
 	}
 	if (locations !== "Loading...") {
-		locationsFetched = locations
+		setLocations(useLocations(locationPages))
 	}
 	return (
 		<div className="App">
@@ -49,6 +69,9 @@ function App() {
 				/>
 			</div>
 			<div className="content">
+				{content !== "description" && (
+					<SearchBar setSearch={setSearchTerm} value={searchTerm} />
+				)}
 				{content === "characters" ? (
 					<Characters
 						characters={charactersFetched}

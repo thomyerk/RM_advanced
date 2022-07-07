@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import UniversalModal from "./Modal"
 import ReactPaginate from "react-paginate"
+import SearchBar from './SearchBar'
 
 export default function Characters(props) {
 	const charactersFetched = props.characters.results
@@ -35,6 +36,7 @@ export default function Characters(props) {
 					<p>{character.species}</p>
 				</div>
 			))}
+			asdsdasdas
 
 			<UniversalModal
 				displayData={characterData}
