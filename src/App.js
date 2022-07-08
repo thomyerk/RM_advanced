@@ -22,8 +22,8 @@ function App() {
 	const [content, setContent] = useState("description");
 	const [history, setHistory] = useLocalStorage("history", []);
 
-	const locations = useLocations(locationPages);
-	const characters = useCharacters(characterPages);
+	// const locations = useLocations(locationPages);
+	// const characters = useCharacters(characterPages);
 
 	useEffect(() => {
 		const data = window.localStorage.getItem("history");
@@ -32,15 +32,15 @@ function App() {
 		}
 	}, []);
 
-	let charactersFetched = [];
-	let locationsFetched = [];
+	// let charactersFetched = [];
+	// let locationsFetched = [];
 
-	if (characters !== "Loading...") {
-		charactersFetched = characters;
-	}
-	if (locations !== "Loading...") {
-		locationsFetched = locations;
-	}
+	// if (characters !== "Loading...") {
+	// 	charactersFetched = characters;
+	// }
+	// if (locations !== "Loading...") {
+	// 	locationsFetched = locations;
+	// }
 	return (
 		<div className="App">
 			<Logo onClick={() => setContent("description")} />
@@ -60,11 +60,7 @@ function App() {
 				{content === "characters" ? (
 					<Characters setHistory={setHistory} history={history} />
 				) : content === "locations" ? (
-					<Locations
-						locations={locationsFetched}
-						setHistory={setHistory}
-						history={history}
-					/>
+					<Locations setHistory={setHistory} history={history} />
 				) : (
 					<Description />
 				)}

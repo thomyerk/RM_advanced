@@ -23,8 +23,14 @@ const Characters = (props) => {
 		window.scrollTo(0, 0);
 	};
 
-	const [charactersFetched, setUrl] = useFetch();
-	console.log("charactersFetched", charactersFetched);
+	useEffect(() => {
+		if (filterObject.name && filterObject.name !== "") {
+			handleFilter();
+		}
+	}, [filterObject.name]);
+
+	const [charactersFetched, setUrl] = useFetch(mainUrls(1).characters);
+	console.log("name", filterObject.name);
 
 	const handleFilter = () => {
 		setCharacterPages(1);
@@ -47,10 +53,6 @@ const Characters = (props) => {
 			props.setHistory([...props.history, actualCharacter.name]);
 		}
 	}, [actualCharacter]);
-
-	useEffect(() => {
-		setUrl(mainUrls(1).characters);
-	}, []);
 
 	const characterData = Object.entries(actualCharacter);
 
@@ -113,7 +115,7 @@ const Characters = (props) => {
 							<p>{character.species}</p>
 						</div>
 				  ))
-				: "Oopss....there was some problem, Morty"}
+				: "Oopss....theres some problem, Morty"}
 
 			<UniversalModal
 				displayData={characterData}
@@ -132,7 +134,6 @@ const Characters = (props) => {
 				containerClassName={"pagination"}
 				subContainerClassName={"pages pagination"}
 				activeClassName={"active"}
-
 			/>
 		</>
 	);

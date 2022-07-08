@@ -16,7 +16,7 @@ export const useFetch = (initUrl) => {
 				return response.json();
 			})
 			.then((json) => setData(json))
-			.catch(() => console.log("There was an error"));
+			.catch((err) => console.log("There was an error:", err));
 	}, [url]);
 
 	return [data, setUrl];
