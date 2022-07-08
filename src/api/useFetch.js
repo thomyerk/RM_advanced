@@ -15,7 +15,8 @@ export const useFetch = (initUrl) => {
 				if (response.status !== 200) return "There must be a problem";
 				return response.json();
 			})
-			.then((json) => setData(json));
+			.then((json) => setData(json))
+			.catch(() => console.log("There was an error"));
 	}, [url]);
 
 	return [data, setUrl];

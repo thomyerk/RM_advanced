@@ -29,13 +29,9 @@ const Characters = (props) => {
 
 	console.log("charactersFetched", charactersFetched);
 
-	// const fetchWithFilters = useFetch(1, filterObject.gender);
-
-	// setCharactersFetched(fetchWithFilters);
-
 	const handleOpen = (target) => {
 		setActualCharacter(
-			charactersFetched.find((x) => x.id === parseInt(target))
+			charactersFetched.results.find((x) => x.id === parseInt(target))
 		);
 		setOpen(true);
 	};
@@ -55,7 +51,9 @@ const Characters = (props) => {
 	return (
 		<>
 			<div className="filter-container">
-				<SearchBar filter={props.filter} />
+				<SearchBar
+					filter={(val) => setFilterObject({ ...filterObject, name: val })}
+				/>
 				<select
 					className="filter"
 					placeholder="Choose a status"
@@ -92,20 +90,21 @@ const Characters = (props) => {
 				/>
 				{/* <button onClick={handleFilter}>Filter</button> */}
 			</div>
-			{charactersFetched &&
-				Object.entries(charactersFetched).map((character) => (
-					<div key={character.id} className="listCard">
-						<h1>{character.name}</h1>
-						<img
-							id={character.id}
-							src={character.image}
-							onClick={(ev) => handleOpen(ev.target.id)}
-							alt={character.name}
-						/>
-						<p>{character.species}</p>
-					</div>
-				))}
-			asdsdasdas
+			{charactersFetched && charactersFetched.results
+				? charactersFetched.results.map((character) => (
+						<div key={character.id} className="listCard">
+							<h1>{character.name}</h1>
+							<img
+								id={character.id}
+								src={character.image}
+								onClick={(ev) => handleOpen(ev.target.id)}
+								alt={character.name}
+							/>
+							<p>{character.species}</p>
+						</div>
+				  ))
+				: "Oopss....there was some problem, Morty"}
+
 			<UniversalModal
 				displayData={characterData}
 				open={open}
