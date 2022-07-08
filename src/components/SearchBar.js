@@ -1,24 +1,15 @@
-import React, {  useEffect } from "react"
+import React, { useEffect } from "react";
 
-const SearchBar = ({filter, value}) => {
-	useEffect(() => {
-		console.log('mount');
-
-	
-		return () => {
-			console.log('unmount');
-		}
-	}, [])
-	
+const SearchBar = ({ filter, value }) => {
 	return (
 		<>
-		<div className="search-bar">
-
-			<input onChange={(e)=>filter(e.currentTarget.value)} value={value}></input>
-		</div>
-
+			<div className="search-bar">
+				<input
+					onChange={(e) => filter(e.currentTarget.value)}
+					value={value}></input>
+			</div>
 		</>
-	)
-}
+	);
+};
 
-export default SearchBar
+export default SearchBar;

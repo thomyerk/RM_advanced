@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react"
+import React from "react";
 
-const History = () => {
-	const [history, setHistory] = useState()
+const History = ({ history }) => {
+	return (
+		<>
+			{history && history.length > 0 && (
+				<div id="history-container">
+					<h3>Previosuly seen</h3>
+					{history.map((h) => (
+						<div>{h}</div>
+					))}
+				</div>
+			)}
+		</>
+	);
+};
 
-	useEffect(() => {
-		const data = window.localStorage.getItem("history")
-		if (data) {
-			setHistory(JSON.parse(data))
-		}
-	}, [])
-	console.log("page h", history)
-
-	return <div>History</div>
-}
-
-export default History
+export default History;

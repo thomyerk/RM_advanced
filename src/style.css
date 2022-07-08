@@ -36,3 +36,34 @@ body {
 	align-self: center;
 	justify-content: center;
 }
+
+#history-container {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	right: 0;
+	transform: translateY(-50%);
+	border: 1px solid red;
+	padding: 10px;
+	top: 50%;
+	max-height: 50vh;
+	overflow: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+#history-container::-webkit-scrollbar {
+	display: none;
+}
+
+.filter-container {
+	width: 100%;
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+}
+
+.filter-container .search-bar {
+	width: 20%;
+}
