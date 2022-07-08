@@ -1,17 +1,20 @@
 export const mainUrls = (page, searchTerm) => {
-	console.log("searchTerm", searchTerm);
 	return {
-		characters: `https://rickandmortyapi.com/api/character/?page=${page}`,
-		locations: `https://rickandmortyapi.com/api/location/?page=${page}`,
-		characterSearchRoute: `https://rickandmortyapi.com/api/character/?name=${searchTerm}&page=${page}`,
-		locationSearchRoute: `https://rickandmortyapi.com/api/character/?location=${searchTerm}&page=${page}`,
+		episodeSearchRoute: `https://rickandmortyapi.com/api/episode/?page=${page}${
+			searchTerm ? `&name=${searchTerm}` : ""
+		}`,
+		locationSearchRoute: `https://rickandmortyapi.com/api/location/?page=${page}${
+			searchTerm ? `&name=${searchTerm}` : ""
+		}`,
 		filterSearch: `https://rickandmortyapi.com/api/character/?page=${page}${
 			searchTerm && searchTerm.gender !== ""
 				? `&gender=${searchTerm.gender}`
 				: ""
-		}${searchTerm && searchTerm.name !== "" ? `&name=${searchTerm.name}` : ""}${
-			searchTerm && searchTerm.type !== "" ? `&type=${searchTerm.type}` : ""
 		}${
+			searchTerm && searchTerm.name && searchTerm.name !== ""
+				? `&name=${searchTerm.name}`
+				: ""
+		}${searchTerm && searchTerm.type !== "" ? `&type=${searchTerm.type}` : ""}${
 			searchTerm && searchTerm.species !== ""
 				? `&species=${searchTerm.species}`
 				: ""

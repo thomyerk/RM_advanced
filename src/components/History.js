@@ -6,8 +6,8 @@ const History = ({ history }) => {
 			{history && history.length > 0 && (
 				<div id="history-container">
 					<h3>Previosuly seen</h3>
-					{history.map((h) => (
-						<div>{h}</div>
+					{history.map((h, i) => (
+						<div key={i}>{h}</div>
 					))}
 				</div>
 			)}

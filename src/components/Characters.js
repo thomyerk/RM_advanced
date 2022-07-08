@@ -5,12 +5,12 @@ import SearchBar from "./SearchBar";
 import useFetch from "../api/useFetch";
 import { mainUrls } from "../api/dataRoutes";
 
-const Characters = (props) => {
+const Characters = ({ history, setHistory }) => {
 	const [characterPages, setCharacterPages] = useState(1);
 	const [open, setOpen] = useState(false);
 	const [actualCharacter, setActualCharacter] = useState("");
 	const [filterObject, setFilterObject] = useState({
-		name: "",
+		name: null,
 		gender: "",
 		type: "",
 		status: "",
@@ -24,14 +24,14 @@ const Characters = (props) => {
 	};
 
 	useEffect(() => {
-		if (filterObject.name && filterObject.name !== "") {
+		if (filterObject.name !== null) {
 			handleFilter();
 		}
 	}, [filterObject.name]);
 
-	const [charactersFetched, setUrl] = useFetch(mainUrls(1).characters);
-	console.log("name", filterObject.name);
-
+	const [charactersFetched, setUrl] = useFetch(
+		mainUrls(characterPages, filterObject).filterSearch
+	);
 	const handleFilter = () => {
 		setCharacterPages(1);
 		setUrl(mainUrls(characterPages, filterObject).filterSearch);
@@ -50,7 +50,7 @@ const Characters = (props) => {
 
 	useEffect(() => {
 		if (actualCharacter !== "") {
-			props.setHistory([...props.history, actualCharacter.name]);
+			setHistory([...history, actualCharacter.name]);
 		}
 	}, [actualCharacter]);
 
@@ -72,6 +72,7 @@ const Characters = (props) => {
 					onChange={(e) =>
 						setFilterObject({ ...filterObject, status: e.currentTarget.value })
 					}>
+					<option value="">Choose status</option>
 					<option value="alive">alive</option>
 					<option value="dead">dead</option>
 					<option value="unknown">unknown</option>
@@ -82,6 +83,7 @@ const Characters = (props) => {
 					onChange={(e) =>
 						setFilterObject({ ...filterObject, gender: e.currentTarget.value })
 					}>
+					<option value="">Choose gender</option>
 					<option value="female">female</option>
 					<option value="male">male</option>
 					<option value="genderless">genderless</option>
