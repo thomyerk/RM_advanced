@@ -6,11 +6,7 @@ import useFetch from "../api/useFetch";
 import { mainUrls } from "../api/dataRoutes";
 
 const Characters = (props) => {
-	// let charactersFetched = props.characters.results;
-	// const [charactersFetched, setCharactersFetched] = useState(
-	// 	props.characters.results
-	// );
-	const pages = props.characters.info.pages;
+	const [characterPages, setCharacterPages] = useState(1);
 	const [open, setOpen] = useState(false);
 	const [actualCharacter, setActualCharacter] = useState("");
 	const [filterObject, setFilterObject] = useState({
@@ -21,13 +17,19 @@ const Characters = (props) => {
 		species: "",
 	});
 
-	const [charactersFetched, setUrl] = useFetch(mainUrls(1).characters);
+	const handlePageClick = (e) => {
+		setUrl(mainUrls(e.selected + 1, filterObject).filterSearch);
+		setCharacterPages(e.selected + 1);
+		window.scrollTo(0, 0);
+	};
 
-	useEffect(() => {
-		setUrl(mainUrls(1, filterObject).filterSearch);
-	}, [filterObject]);
-
+	const [charactersFetched, setUrl] = useFetch();
 	console.log("charactersFetched", charactersFetched);
+
+	const handleFilter = () => {
+		setCharacterPages(1);
+		setUrl(mainUrls(characterPages, filterObject).filterSearch);
+	};
 
 	const handleOpen = (target) => {
 		setActualCharacter(
@@ -46,7 +48,15 @@ const Characters = (props) => {
 		}
 	}, [actualCharacter]);
 
+	useEffect(() => {
+		setUrl(mainUrls(1).characters);
+	}, []);
+
 	const characterData = Object.entries(actualCharacter);
+
+	if (!charactersFetched) {
+		return null;
+	}
 
 	return (
 		<>
@@ -88,9 +98,9 @@ const Characters = (props) => {
 						setFilterObject({ ...filterObject, type: e.currentTarget.value })
 					}
 				/>
-				{/* <button onClick={handleFilter}>Filter</button> */}
+				<button onClick={handleFilter}>Filter</button>
 			</div>
-			{charactersFetched && charactersFetched.results
+			{charactersFetched.results
 				? charactersFetched.results.map((character) => (
 						<div key={character.id} className="listCard">
 							<h1>{character.name}</h1>
@@ -115,15 +125,17 @@ const Characters = (props) => {
 				nextLabel={"next"}
 				breakLabel={"..."}
 				breakClassName={"break-me"}
-				pageCount={pages}
+				pageCount={charactersFetched.info.pages}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={3}
-				onPageChange={props.handlePageClick}
+				onPageChange={handlePageClick}
 				containerClassName={"pagination"}
 				subContainerClassName={"pages pagination"}
 				activeClassName={"active"}
+
 			/>
 		</>
 	);
 };
+
 export default Characters;

@@ -12,27 +12,18 @@ import Description from "./components/Description";
 import Characters from "./components/Characters";
 import Locations from "./components/Locations";
 import History from "./components/History";
-import useLocalStorage from "./components/assets/useLocalStorage";
+import useLocalStorage from "./components/helpers/useLocalStorage";
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg";
-	let locationsButton = process.env.PUBLIC_URL + "/img/locatigions.jpg";
+	let locationsButton = process.env.PUBLIC_URL + "/img/locations.jpg";
 	const [characterPages, setCharacterPages] = useState(1);
 	const [locationPages, setLocationPages] = useState(1);
 	const [content, setContent] = useState("description");
-	const [locationFilter, setLocationFilter] = useState(null);
-	const [characterFilter, setCharacterFilter] = useState(null);
 	const [history, setHistory] = useLocalStorage("history", []);
 
-	const locations = useLocations(locationPages, locationFilter);
-	const characters = useCharacters(characterPages, characterFilter);
-
-	const handlePageClick = (e) => {
-		content === "characters"
-			? setCharacterPages(e.selected + 1)
-			: setLocationPages(e.selected + 1);
-		window.scrollTo(0, 0);
-	};
+	const locations = useLocations(locationPages);
+	const characters = useCharacters(characterPages);
 
 	useEffect(() => {
 		const data = window.localStorage.getItem("history");
@@ -67,18 +58,10 @@ function App() {
 			</div>
 			<div className="content">
 				{content === "characters" ? (
-					<Characters
-						characters={charactersFetched}
-						handlePageClick={handlePageClick}
-						filter={setCharacterFilter}
-						setHistory={setHistory}
-						history={history}
-					/>
+					<Characters setHistory={setHistory} history={history} />
 				) : content === "locations" ? (
 					<Locations
 						locations={locationsFetched}
-						handlePageClick={handlePageClick}
-						filter={setLocationFilter}
 						setHistory={setHistory}
 						history={history}
 					/>

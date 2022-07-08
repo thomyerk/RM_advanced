@@ -4,6 +4,12 @@
 	--pagination-color: #a5dd1a;
 }
 
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000000;
+}
+
 .App {
 	display: flex;
 	justify-content: center;
@@ -74,6 +80,7 @@
 	align-items: center;
 	text-align: center;
 	margin: 10px;
+	height: auto;
 }
 
 .listCard img {
@@ -163,4 +170,70 @@ ul.pagination {
 
 .location {
 	cursor: pointer;
+}
+
+#openimage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#openimage img {
+	max-width: 60vw;
+	max-height: 60vh;
+}
+#openbuttons {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#openbuttons img {
+	max-width: 35vw;
+	max-height: 35vh;
+	border-radius: 10px;
+	margin: 20px;
+}
+#desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 2rem;
+	max-width: 50%;
+}
+
+.search-bar {
+	display: flex;
+	width: 100%;
+	align-self: center;
+	justify-content: center;
+}
+
+#history-container {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	right: 0;
+	transform: translateY(-50%);
+	border: 1px solid red;
+	padding: 10px;
+	top: 50%;
+	max-height: 50vh;
+	overflow: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+#history-container::-webkit-scrollbar {
+	display: none;
+}
+
+.filter-container {
+	width: 100%;
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+}
+
+.filter-container .search-bar {
+	width: 20%;
 }
