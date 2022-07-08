@@ -2,25 +2,36 @@ import React, { useState, useEffect } from "react";
 import UniversalModal from "./Modal";
 import ReactPaginate from "react-paginate";
 import SearchBar from "./SearchBar";
-// import useFetch from "../api/useFetch";
+import useFetch from "../api/useFetch";
+import { mainUrls } from "../api/dataRoutes";
 
 const Characters = (props) => {
-	const charactersFetched = props.characters.results;
+	// let charactersFetched = props.characters.results;
+	// const [charactersFetched, setCharactersFetched] = useState(
+	// 	props.characters.results
+	// );
 	const pages = props.characters.info.pages;
 	const [open, setOpen] = useState(false);
 	const [actualCharacter, setActualCharacter] = useState("");
 	const [filterObject, setFilterObject] = useState({
+		name: "",
 		gender: "",
 		type: "",
 		status: "",
 		species: "",
 	});
 
-	console.log(filterObject);
+	const [charactersFetched, setUrl] = useFetch(mainUrls(1).characters);
 
-	// const handleFilter = () => {
-	// 	const fetchWithFilters = useFetch();
-	// };
+	useEffect(() => {
+		setUrl(mainUrls(1, filterObject).filterSearch);
+	}, [filterObject]);
+
+	console.log("charactersFetched", charactersFetched);
+
+	// const fetchWithFilters = useFetch(1, filterObject.gender);
+
+	// setCharactersFetched(fetchWithFilters);
 
 	const handleOpen = (target) => {
 		setActualCharacter(
@@ -81,18 +92,19 @@ const Characters = (props) => {
 				/>
 				{/* <button onClick={handleFilter}>Filter</button> */}
 			</div>
-			{charactersFetched.map((character) => (
-				<div key={character.id} className="listCard">
-					<h1>{character.name}</h1>
-					<img
-						id={character.id}
-						src={character.image}
-						onClick={(ev) => handleOpen(ev.target.id)}
-						alt={character.name}
-					/>
-					<p>{character.species}</p>
-				</div>
-			))}
+			{charactersFetched &&
+				Object.entries(charactersFetched).map((character) => (
+					<div key={character.id} className="listCard">
+						<h1>{character.name}</h1>
+						<img
+							id={character.id}
+							src={character.image}
+							onClick={(ev) => handleOpen(ev.target.id)}
+							alt={character.name}
+						/>
+						<p>{character.species}</p>
+					</div>
+				))}
 			asdsdasdas
 			<UniversalModal
 				displayData={characterData}
