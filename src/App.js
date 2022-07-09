@@ -3,17 +3,19 @@ import "./App.css";
 import Characters from "./components/Characters";
 import Description from "./components/Description";
 import Episodes from "./components/Episodes";
-import useLocalStorage from "./components/helpers/useLocalStorage";
+import useLocalStorage from "./components/hooks/useLocalStorage";
 import History from "./components/History";
 import Locations from "./components/Locations";
 import Logo from "./components/Logo";
 import "./style.css";
+import { usePath, A } from "hookrouter";
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg";
 	let locationsButton = process.env.PUBLIC_URL + "/img/locations.jpg";
-	const [content, setContent] = useState("description");
 	const [history, setHistory] = useLocalStorage("history", []);
+
+	const path = usePath();
 
 	useEffect(() => {
 		const data = window.localStorage.getItem("history");
@@ -22,27 +24,31 @@ function App() {
 		}
 	}, []);
 
+	// TODO: empty queryparams when navigate from episodes then go to characters main page
+	// TODO: episodes button
+
 	return (
 		<div className="App">
-			<Logo onClick={() => setContent("description")} />
+			<Logo />
 			<div id="openbuttons">
-				<a onClick={() => setContent("characters")}>
+				{/* use custom A component from hookrouter to push path into history instead of navigating, to preserve flow */}
+				<A href="/characters">
 					<img src={charactersButton} alt={"charactersButton"} />
-				</a>
-				<a onClick={() => setContent("locations")}>
+				</A>
+				<A href="/locations">
 					<img src={locationsButton} alt={"locationsButton"} />
-				</a>
-				<a onClick={() => setContent("episodes")}>
+				</A>
+				<A href="/episodes">
 					Episodes
 					<img src={locationsButton} alt={"episodesButton"} />
-				</a>
+				</A>
 			</div>
 			<div className="content">
-				{content === "characters" ? (
+				{path.includes("/characters") ? (
 					<Characters setHistory={setHistory} history={history} />
-				) : content === "locations" ? (
+				) : path.includes("/locations") ? (
 					<Locations setHistory={setHistory} history={history} />
-				) : content === "episodes" ? (
+				) : path.includes("/episodes") ? (
 					<Episodes />
 				) : (
 					<Description />

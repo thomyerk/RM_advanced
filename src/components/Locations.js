@@ -1,53 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import UniversalModal from "./Modal";
 import ReactPaginate from "react-paginate";
-import SearchBar from "./SearchBar";
-import useFetch from "../api/useFetch";
-import { mainUrls } from "../api/dataRoutes";
+import useLocations from "./hooks/use-locations";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function Locations(props) {
-	const [locationPages, setLocationPages] = useState(1);
-	const [open, setOpen] = useState(false);
-	const [actualLocation, setActualLocation] = useState("");
-	const [locationFilter, setLocationFilter] = useState(null);
-	const [locationsFetched, setUrl] = useFetch(mainUrls(1).locationSearchRoute);
+	const {
+		locationsFetched,
+		setLocationFilter,
+		handleOpen,
+		locationData,
+		open,
+		handleClose,
+		currentPage,
+		handlePageClick,
+		loading,
+		locationFilter,
+	} = useLocations(props);
 
-	const handleOpen = (target) => {
-		setActualLocation(
-			locationsFetched.results.find((x) => x.id === parseInt(target))
-		);
-		setOpen(true);
-	};
-
-	const handlePageClick = (e) => {
-		setUrl(mainUrls(e.selected + 1, locationFilter).locationSearchRoute);
-		setLocationPages(e.selected + 1);
-		window.scrollTo(0, 0);
-	};
-
-	useEffect(() => {
-		console.log(mainUrls(1, locationFilter).locationSearchRoute);
-		setUrl(mainUrls(1, locationFilter).locationSearchRoute);
-		setLocationPages(1);
-	}, [locationFilter]);
-
-	useEffect(() => {
-		if (actualLocation !== "") {
-			props.setHistory([...props.history, actualLocation.name]);
-		}
-	}, [actualLocation]);
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-	const locationData = Object.entries(actualLocation);
 	if (!locationsFetched) {
 		return null;
 	}
 
+	if (locationsFetched == 404) {
+		return "Oopss....theres nothing, Morty. Please reload";
+	}
+
 	return (
 		<>
-			<SearchBar filter={(val) => setLocationFilter(val)} />
+			<div className="search-bar">
+				<input
+					onChange={(e) => setLocationFilter(e.currentTarget.value)}
+					defaultValue={locationFilter}></input>
+				{loading && <LoadingSpinner />}
+			</div>
 			{locationsFetched.results
 				? locationsFetched.results.map((location) => (
 						<div
@@ -59,7 +45,7 @@ export default function Locations(props) {
 							<p id={location.id}>{location.type}</p>
 						</div>
 				  ))
-				: "Oopss....theres some problem, Morty"}
+				: "Oopss....theres no results, Morty"}
 			<UniversalModal
 				displayData={locationData}
 				open={open}
@@ -70,7 +56,11 @@ export default function Locations(props) {
 				nextLabel={"next"}
 				breakLabel={"..."}
 				breakClassName={"break-me"}
-				pageCount={locationsFetched.info.pages}
+				pageCount={
+					locationsFetched && locationsFetched.info.pages
+						? locationsFetched.info.pages
+						: currentPage
+				}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={5}
 				onPageChange={handlePageClick}

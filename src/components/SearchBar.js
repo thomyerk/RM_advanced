@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import useDebounce from "./helpers/use-debounce";
+import useDebounce from "./hooks/use-debounce";
 import LoadingSpinner from "./LoadingSpinner";
 
-const SearchBar = ({ filter, value }) => {
+const SearchBar = ({ returnWithDebounce, defval }) => {
 	const [loading, setLoading] = useState(false);
-	const [searchTerm, setsearchTerm] = useState("");
+	const [searchTerm, setsearchTerm] = useState(null);
+
+	console.log("searchterm", searchTerm);
 
 	const debouncedTerm = useDebounce(searchTerm);
 
 	useEffect(() => {
-		filter(debouncedTerm);
+		returnWithDebounce(debouncedTerm);
 		setLoading(false);
 	}, [debouncedTerm]);
 
@@ -23,8 +25,8 @@ const SearchBar = ({ filter, value }) => {
 		<>
 			<div className="search-bar">
 				<input
-					onChange={(e) => setsearchTerm(e.currentTarget.value)}
-					value={value}></input>
+					defaultValue={defval}
+					onChange={(e) => setsearchTerm(e.currentTarget.value)}></input>
 				{loading && <LoadingSpinner />}
 			</div>
 		</>

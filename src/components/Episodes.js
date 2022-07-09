@@ -1,50 +1,40 @@
 import React, { useState, useEffect } from "react";
 import UniversalModal from "./Modal";
 import ReactPaginate from "react-paginate";
-import SearchBar from "./SearchBar";
-import useFetch from "../api/useFetch";
-import { mainUrls } from "../api/dataRoutes";
+import useEpisodes from "./hooks/use-episodes";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function Episodes(props) {
-	const [currentPage, setCurrentPage] = useState(1);
-	const [openModal, setOpenModal] = useState(false);
-	const [selectedEpisode, setSelectedEpisode] = useState("");
-	const [episodeFilterTerm, setEpisodeFilterTerm] = useState(null);
-	const [episodesFetched, setUrl] = useFetch(mainUrls(1).episodeSearchRoute);
-
-	console.log("selectedEpisode", selectedEpisode);
-
-	const handleOpen = (target) => {
-		setSelectedEpisode(
-			episodesFetched.results.find((x) => x.id === parseInt(target))
-		);
-		setOpenModal(true);
-	};
-
-	const handlePageClick = (e) => {
-		setUrl(mainUrls(e.selected + 1, episodeFilterTerm).episodeSearchRoute);
-		setCurrentPage(e.selected + 1);
-		window.scrollTo(0, 0);
-	};
-
-	useEffect(() => {
-		console.log(mainUrls(1, episodeFilterTerm).episodeSearchRoute);
-		setUrl(mainUrls(1, episodeFilterTerm).episodeSearchRoute);
-		setCurrentPage(1);
-	}, [episodeFilterTerm]);
-
-	const handleClose = () => {
-		setOpenModal(false);
-	};
-	const episodeData = Object.entries(selectedEpisode);
+	const {
+		episodeData,
+		handleClose,
+		episodeFilterTerm,
+		handlePageClick,
+		handleOpen,
+		episodesFetched,
+		openModal,
+		setEpisodeFilterTerm,
+		currentPage,
+		loading,
+		selectedEpisode,
+	} = useEpisodes();
 
 	if (!episodesFetched) {
 		return null;
 	}
 
+	if (episodesFetched == 404) {
+		return "Oopss....theres nothing, Morty. Please reload";
+	}
+
 	return (
 		<>
-			<SearchBar filter={(val) => setEpisodeFilterTerm(val)} />
+			<div className="search-bar">
+				<input
+					onChange={(e) => setEpisodeFilterTerm(e.currentTarget.value)}
+					defaultValue={episodeFilterTerm}></input>
+				{loading && <LoadingSpinner />}
+			</div>
 			{episodesFetched.results
 				? episodesFetched.results.map((location) => (
 						<div
@@ -56,7 +46,7 @@ export default function Episodes(props) {
 							<p id={location.id}>{location.type}</p>
 						</div>
 				  ))
-				: "Oopss....theres some problem, Morty"}
+				: "Oopss....theres no results, Morty"}
 			<UniversalModal
 				displayData={episodeData}
 				open={openModal}
@@ -68,7 +58,11 @@ export default function Episodes(props) {
 				nextLabel={"next"}
 				breakLabel={"..."}
 				breakClassName={"break-me"}
-				pageCount={episodesFetched.info.pages}
+				pageCount={
+					episodesFetched && episodesFetched.info.pages
+						? episodesFetched.info.pages
+						: currentPage
+				}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={5}
 				onPageChange={handlePageClick}

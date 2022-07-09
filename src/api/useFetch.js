@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { navigate } from "hookrouter";
 
 /**
      Fetch data from the given url. If it can't get any data from the url, than it writes a message into the console.
@@ -12,7 +13,7 @@ export const useFetch = (initUrl) => {
 	useEffect(() => {
 		fetch(url)
 			.then((response) => {
-				if (response.status !== 200) return "There must be a problem";
+				if (response.status !== 200) return response.status;
 				return response.json();
 			})
 			.then((json) => setData(json))

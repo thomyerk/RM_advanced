@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
+import { useQueryParams, A, setLinkProps } from "hookrouter";
 
 export default function UniversalModal({
 	displayData,
@@ -7,6 +8,8 @@ export default function UniversalModal({
 	closeHandler,
 	episodeCharacters,
 }) {
+	const [queryParams, setQueryParams] = useQueryParams();
+	const { name = "" } = queryParams;
 	const [characters, setCharacters] = useState();
 	const fetchCharacters = async (characterIdArray) => {
 		try {
@@ -19,7 +22,7 @@ export default function UniversalModal({
 			const data = resp.json();
 			return data;
 		} catch (error) {
-			console.log("There was an error:", error);
+			console.log("There was an error");
 		}
 	};
 
@@ -29,6 +32,10 @@ export default function UniversalModal({
 			fetchCharacters(characterIds).then((result) => setCharacters(result));
 		}
 	}, [episodeCharacters]);
+
+	const handleQueryParams = (name) => {
+		setQueryParams({ name });
+	};
 
 	const body = (
 		<div className="popUpCard">
@@ -46,11 +53,17 @@ export default function UniversalModal({
 			})}
 			{characters && (
 				<div id="character-container">
-					{characters.map((c) => (
-						<a key={c.name} href={c.url}>
-							<img src={c.image} alt={c.name} className="episode-character" />
-						</a>
-					))}
+					{characters.map((c) => {
+						const linkProps = {
+							href: `/characters/`,
+							onClick: () => handleQueryParams(c.name),
+						};
+						return (
+							<A key={c.name} {...setLinkProps(linkProps)}>
+								<img src={c.image} alt={c.name} className="episode-character" />
+							</A>
+						);
+					})}
 				</div>
 			)}
 		</div>

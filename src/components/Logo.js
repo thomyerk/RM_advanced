@@ -1,13 +1,14 @@
-import React from "react"
+import React from "react";
+import { A } from "hookrouter";
 
 const Logo = () => {
-	let rmImage = process.env.PUBLIC_URL + "/img/rick-and-morty.jpg"
+	let rmImage = process.env.PUBLIC_URL + "/img/rick-and-morty.jpg";
 	return (
 		<div id="openimage">
-			<a href={process.env.PUBLIC_URL}>
+			<A href="/">
 				<img src={rmImage} alt={rmImage} />
-			</a>
+			</A>
 		</div>
-	)
-}
-export default Logo
+	);
+};
+export default Logo;

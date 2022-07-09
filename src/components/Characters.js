@@ -1,71 +1,42 @@
-import React, { useState, useEffect } from "react";
-import UniversalModal from "./Modal";
+import React from "react";
 import ReactPaginate from "react-paginate";
-import SearchBar from "./SearchBar";
-import useFetch from "../api/useFetch";
-import { mainUrls } from "../api/dataRoutes";
+import useCharacters from "./hooks/use-characters";
+import LoadingSpinner from "./LoadingSpinner";
+import UniversalModal from "./Modal";
 
 const Characters = ({ history, setHistory }) => {
-	const [characterPages, setCharacterPages] = useState(1);
-	const [open, setOpen] = useState(false);
-	const [actualCharacter, setActualCharacter] = useState("");
-	const [filterObject, setFilterObject] = useState({
-		name: null,
-		gender: "",
-		type: "",
-		status: "",
-		species: "",
-	});
-
-	const handlePageClick = (e) => {
-		setUrl(mainUrls(e.selected + 1, filterObject).filterSearch);
-		setCharacterPages(e.selected + 1);
-		window.scrollTo(0, 0);
-	};
-
-	useEffect(() => {
-		if (filterObject.name !== null) {
-			handleFilter();
-		}
-	}, [filterObject.name]);
-
-	const [charactersFetched, setUrl] = useFetch(
-		mainUrls(characterPages, filterObject).filterSearch
-	);
-	const handleFilter = () => {
-		setCharacterPages(1);
-		setUrl(mainUrls(characterPages, filterObject).filterSearch);
-	};
-
-	const handleOpen = (target) => {
-		setActualCharacter(
-			charactersFetched.results.find((x) => x.id === parseInt(target))
-		);
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	useEffect(() => {
-		if (actualCharacter !== "") {
-			setHistory([...history, actualCharacter.name]);
-		}
-	}, [actualCharacter]);
-
-	const characterData = Object.entries(actualCharacter);
+	const {
+		setNameFilter,
+		filterObject,
+		setFilterObject,
+		charactersFetched,
+		handleFilter,
+		characterData,
+		handleClose,
+		handlePageClick,
+		loading,
+		handleOpen,
+		currentPage,
+		open,
+	} = useCharacters(history, setHistory);
 
 	if (!charactersFetched) {
 		return null;
 	}
 
+	if (charactersFetched == 404) {
+		return "Oopss....theres nothing, Morty. Please reload";
+	}
+
 	return (
 		<>
 			<div className="filter-container">
-				<SearchBar
-					filter={(val) => setFilterObject({ ...filterObject, name: val })}
-				/>
+				<div className="search-bar">
+					<input
+						onChange={(e) => setNameFilter(e.currentTarget.value)}
+						defaultValue={filterObject.name}></input>
+					{loading && <LoadingSpinner />}
+				</div>
 				<select
 					className="filter"
 					placeholder="Choose a status"
@@ -117,7 +88,7 @@ const Characters = ({ history, setHistory }) => {
 							<p>{character.species}</p>
 						</div>
 				  ))
-				: "Oopss....theres some problem, Morty"}
+				: "Oopss....theres no results, Morty"}
 
 			<UniversalModal
 				displayData={characterData}
@@ -129,7 +100,11 @@ const Characters = ({ history, setHistory }) => {
 				nextLabel={"next"}
 				breakLabel={"..."}
 				breakClassName={"break-me"}
-				pageCount={charactersFetched.info.pages}
+				pageCount={
+					charactersFetched && charactersFetched.info.pages
+						? charactersFetched.info.pages
+						: currentPage
+				}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={3}
 				onPageChange={handlePageClick}
