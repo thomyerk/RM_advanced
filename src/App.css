@@ -268,3 +268,25 @@ ul.pagination {
 	position: absolute;
 	margin-left: 5px;
 }
+
+.episode-character {
+	max-width: 150px;
+}
+
+#character-container a {
+	opacity: 1;
+}
+
+#character-container {
+	display: flex;
+	gap: 5px;
+	flex-wrap: wrap;
+	position: relative;
+	height: 250px;
+	overflow: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+#character-container::-webkit-scrollbar {
+	display: none;
+}
