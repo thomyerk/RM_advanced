@@ -26,7 +26,11 @@ const Characters = ({ history, setHistory }) => {
 	}
 
 	if (charactersFetched === 404) {
-		return "Oopss....theres nothing, Morty. Please reload";
+		return (
+			<div className="error-message">
+				Oopss....theres nothing, Morty. Please reload
+			</div>
+		);
 	}
 
 	return (
@@ -65,13 +69,13 @@ const Characters = ({ history, setHistory }) => {
 				</select>
 				<input
 					type="text"
-					placeholder="species"
+					placeholder="Species"
 					onChange={(e) =>
 						setFilterObject({ ...filterObject, species: e.currentTarget.value })
 					}></input>
 				<input
 					type="text"
-					placeholder="type"
+					placeholder="Type"
 					onChange={(e) =>
 						setFilterObject({ ...filterObject, type: e.currentTarget.value })
 					}
@@ -80,20 +84,22 @@ const Characters = ({ history, setHistory }) => {
 					Filter
 				</button>
 			</div>
-			{charactersFetched.results
-				? charactersFetched.results.map((character) => (
-						<div key={character.id} className="listCard">
-							<h1>{character.name}</h1>
-							<img
-								id={character.id}
-								src={character.image}
-								onClick={(ev) => handleOpen(ev.target.id)}
-								alt={character.name}
-							/>
-							<p>{character.species}</p>
-						</div>
-				  ))
-				: "Oopss....theres no results, Morty"}
+			{charactersFetched.results ? (
+				charactersFetched.results.map((character) => (
+					<div key={character.id} className="listCard">
+						<h1>{character.name}</h1>
+						<img
+							id={character.id}
+							src={character.image}
+							onClick={(ev) => handleOpen(ev.target.id)}
+							alt={character.name}
+						/>
+						<p>{character.species}</p>
+					</div>
+				))
+			) : (
+				<div className="error-message">"Oopss....theres no results, Morty"</div>
+			)}
 
 			<UniversalModal
 				displayData={characterData}

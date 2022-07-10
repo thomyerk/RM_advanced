@@ -4,7 +4,7 @@ import ReactPaginate from "react-paginate";
 import useEpisodes from "./hooks/use-episodes";
 import LoadingSpinner from "./LoadingSpinner";
 
-export default function Episodes(props) {
+export default function Episodes() {
 	const {
 		episodeData,
 		handleClose,
@@ -24,7 +24,11 @@ export default function Episodes(props) {
 	}
 
 	if (episodesFetched === 404) {
-		return "Oopss....theres nothing, Morty. Please reload";
+		return (
+			<div className="error-message">
+				Oopss....theres nothing, Morty. Please reload
+			</div>
+		);
 	}
 
 	return (
@@ -35,18 +39,20 @@ export default function Episodes(props) {
 					defaultValue={episodeFilterTerm}></input>
 				{loading && <LoadingSpinner />}
 			</div>
-			{episodesFetched.results
-				? episodesFetched.results.map((location) => (
-						<div
-							key={location.id}
-							id={location.id}
-							onClick={(ev) => handleOpen(ev.target.id)}
-							className="listCard episodes">
-							<h1 id={location.id}>{location.name}</h1>
-							<p id={location.id}>{location.type}</p>
-						</div>
-				  ))
-				: "Oopss....theres no results, Morty"}
+			{episodesFetched.results ? (
+				episodesFetched.results.map((location) => (
+					<div
+						key={location.id}
+						id={location.id}
+						onClick={(ev) => handleOpen(ev.target.id)}
+						className="listCard episodes">
+						<h1 id={location.id}>{location.name}</h1>
+						<p id={location.id}>{location.type}</p>
+					</div>
+				))
+			) : (
+				<div className="error-message">"Oopss....theres no results, Morty"</div>
+			)}
 			<UniversalModal
 				displayData={episodeData}
 				open={openModal}
@@ -63,6 +69,7 @@ export default function Episodes(props) {
 						? episodesFetched.info.pages
 						: currentPage
 				}
+				forcePage={currentPage - 1}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={5}
 				onPageChange={handlePageClick}

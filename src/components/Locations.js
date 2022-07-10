@@ -23,7 +23,11 @@ export default function Locations(props) {
 	}
 
 	if (locationsFetched === 404) {
-		return "Oopss....theres nothing, Morty. Please reload";
+		return (
+			<div className="error-message">
+				Oopss....theres nothing, Morty. Please reload
+			</div>
+		);
 	}
 
 	return (
@@ -34,18 +38,20 @@ export default function Locations(props) {
 					defaultValue={locationFilter}></input>
 				{loading && <LoadingSpinner />}
 			</div>
-			{locationsFetched.results
-				? locationsFetched.results.map((location) => (
-						<div
-							key={location.id}
-							id={location.id}
-							onClick={(ev) => handleOpen(ev.target.id)}
-							className="listCard location">
-							<h1 id={location.id}>{location.name}</h1>
-							<p id={location.id}>{location.type}</p>
-						</div>
-				  ))
-				: "Oopss....theres no results, Morty"}
+			{locationsFetched.results ? (
+				locationsFetched.results.map((location) => (
+					<div
+						key={location.id}
+						id={location.id}
+						onClick={(ev) => handleOpen(ev.target.id)}
+						className="listCard location">
+						<h1 id={location.id}>{location.name}</h1>
+						<p id={location.id}>{location.type}</p>
+					</div>
+				))
+			) : (
+				<div className="error-message">"Oopss....theres no results, Morty"</div>
+			)}
 			<UniversalModal
 				displayData={locationData}
 				open={open}
@@ -61,6 +67,7 @@ export default function Locations(props) {
 						? locationsFetched.info.pages
 						: currentPage
 				}
+				forcePage={currentPage - 1}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={5}
 				onPageChange={handlePageClick}

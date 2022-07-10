@@ -105,7 +105,7 @@ h1 {
 	width: 70%;
 	font-weight: bold;
 	outline: none;
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 }
 .popUpData {
 	color: rgb(196, 131, 10);
@@ -124,6 +124,7 @@ ul.pagination {
 	justify-content: center;
 	align-items: center;
 	padding-inline-start: 0px;
+	margin-bottom: 4rem;
 }
 
 .pagination > .active > a {
@@ -277,6 +278,7 @@ ul.pagination {
 	padding: 5px;
 	background-color: #74c248;
 	color: #fdfac2;
+	width: 10%;
 }
 
 .filter-container .search-bar {
@@ -340,9 +342,7 @@ ul.pagination {
 		max-height: 450px;
 		font-size: large;
 	}
-	.popUpCard {
-		font-size: 1.5rem;
-	}
+
 	.filter-container {
 		width: 86%;
 	}
@@ -353,6 +353,13 @@ ul.pagination {
 		max-width: 29vw;
 	}
 }
+
+@media screen and (max-width: 900px) {
+	.listCard {
+		width: 36%;
+	}
+}
+
 @media screen and (max-width: 768px) {
 	.listCard {
 		width: 44%;
@@ -362,9 +369,6 @@ ul.pagination {
 	}
 	#desc {
 		max-width: 90%;
-	}
-	.pagination {
-		font-size: 2rem;
 	}
 	.filter-container {
 		width: 100%;
@@ -377,6 +381,12 @@ ul.pagination {
 	select,
 	button {
 		font-size: 1.5rem;
+	}
+	.history-items {
+		font-size: 1.5rem;
+	}
+	.filter-button {
+		width: 30%;
 	}
 }
 
@@ -394,9 +404,21 @@ ul.pagination {
 	.listCard img {
 		max-width: 80%;
 	}
-
 	.popUpCard {
 		width: 80%;
-		font-size: 1.5rem;
+	}
+
+	.filter-container {
+		flex-direction: column;
+	}
+	.filter-container .search-bar {
+		justify-content: center;
+		width: 100%;
+	}
+	.filter-button {
+		width: 200px;
+	}
+	.error-message {
+		font-size: x-large;
 	}
 }
