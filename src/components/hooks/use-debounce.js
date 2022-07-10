@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 const useDebounce = (value) => {
+	// basically returns the input value after 300 ms
 	const [debounced, setDebounced] = useState(value);
 	useEffect(() => {
 		const timer = setTimeout(() => {

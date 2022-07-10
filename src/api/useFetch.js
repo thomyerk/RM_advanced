@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { navigate } from "hookrouter";
 
 /**
      Fetch data from the given url. If it can't get any data from the url, than it writes a message into the console.

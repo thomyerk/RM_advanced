@@ -3,7 +3,6 @@ import UniversalModal from "./Modal";
 import ReactPaginate from "react-paginate";
 import useLocations from "./hooks/use-locations";
 import LoadingSpinner from "./LoadingSpinner";
-import ListCard from './ListCard'
 
 export default function Locations(props) {
 	const {
@@ -23,7 +22,7 @@ export default function Locations(props) {
 		return null;
 	}
 
-	if (locationsFetched == 404) {
+	if (locationsFetched === 404) {
 		return "Oopss....theres nothing, Morty. Please reload";
 	}
 
@@ -37,11 +36,14 @@ export default function Locations(props) {
 			</div>
 			{locationsFetched.results
 				? locationsFetched.results.map((location) => (
-						<ListCard
-							listItem={location}
-							type={"location"}
-							handleOpen={handleOpen}
-						/>
+						<div
+							key={location.id}
+							id={location.id}
+							onClick={(ev) => handleOpen(ev.target.id)}
+							className="listCard location">
+							<h1 id={location.id}>{location.name}</h1>
+							<p id={location.id}>{location.type}</p>
+						</div>
 				  ))
 				: "Oopss....theres no results, Morty"}
 			<UniversalModal

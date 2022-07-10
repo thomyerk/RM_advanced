@@ -18,13 +18,14 @@ const Characters = ({ history, setHistory }) => {
 		handleOpen,
 		currentPage,
 		open,
+		nameFilter,
 	} = useCharacters(history, setHistory);
 
 	if (!charactersFetched) {
 		return null;
 	}
 
-	if (charactersFetched == 404) {
+	if (charactersFetched === 404) {
 		return "Oopss....theres nothing, Morty. Please reload";
 	}
 
@@ -34,10 +35,11 @@ const Characters = ({ history, setHistory }) => {
 				<div className="search-bar">
 					<input
 						onChange={(e) => setNameFilter(e.currentTarget.value)}
-						defaultValue={filterObject.name}
+						value={nameFilter}
 						placeholder="Name"></input>
 					{loading && <LoadingSpinner />}
 				</div>
+				{/* all filters will be applied on the filter button, except the name which use live search */}
 				<select
 					className="filter"
 					placeholder="Choose a status"
@@ -45,9 +47,9 @@ const Characters = ({ history, setHistory }) => {
 						setFilterObject({ ...filterObject, status: e.currentTarget.value })
 					}>
 					<option value="">Choose status</option>
-					<option value="alive">alive</option>
-					<option value="dead">dead</option>
-					<option value="unknown">unknown</option>
+					<option value="alive">Alive</option>
+					<option value="dead">Dead</option>
+					<option value="unknown">Unknown</option>
 				</select>
 				<select
 					className="filter"
@@ -56,10 +58,10 @@ const Characters = ({ history, setHistory }) => {
 						setFilterObject({ ...filterObject, gender: e.currentTarget.value })
 					}>
 					<option value="">Choose gender</option>
-					<option value="female">female</option>
-					<option value="male">male</option>
-					<option value="genderless">genderless</option>
-					<option value="unknown">unknown</option>
+					<option value="female">Female</option>
+					<option value="male">Male</option>
+					<option value="genderless">Genderless</option>
+					<option value="unknown">Unknown</option>
 				</select>
 				<input
 					type="text"
@@ -108,6 +110,8 @@ const Characters = ({ history, setHistory }) => {
 						? charactersFetched.info.pages
 						: currentPage
 				}
+				// current page needs to be taken from 1 instead of 0 to use it correctly at fetching. with forcePage i control the current page from my state instead of the component itself
+				forcePage={currentPage - 1}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={3}
 				onPageChange={handlePageClick}

@@ -9,8 +9,10 @@ export default function UniversalModal({
 	episodeCharacters,
 }) {
 	const [queryParams, setQueryParams] = useQueryParams();
+	// define a default query param
 	const { name = "" } = queryParams;
 	const [characters, setCharacters] = useState();
+	// fetch characters of the episode
 	const fetchCharacters = async (characterIdArray) => {
 		try {
 			const resp = await fetch(
@@ -27,12 +29,14 @@ export default function UniversalModal({
 	};
 
 	useEffect(() => {
-		if (episodeCharacters) {
+		// if episode character urls received then get their ids from the url
+		if (episodeCharacters && episodeCharacters.length > 0) {
 			const characterIds = episodeCharacters.map((c) => c.split("/")[5]);
 			fetchCharacters(characterIds).then((result) => setCharacters(result));
 		}
 	}, [episodeCharacters]);
 
+	// custom function for setting the name as query parameter, could be used with the A component of hookrouter
 	const handleQueryParams = (name) => {
 		setQueryParams({ name });
 	};
@@ -41,8 +45,12 @@ export default function UniversalModal({
 		<div className="popUpCard">
 			{displayData.map((elem, index) => {
 				if (
-					(typeof elem[1] === "string" || typeof elem[1] === "number") &&
-					elem[1] !== ""
+					// for episodes only display the required information
+					((typeof elem[1] === "string" || typeof elem[1] === "number") &&
+						elem[1] !== "" &&
+						!episodeCharacters) ||
+					(episodeCharacters &&
+						["name", "air_date", "episode"].indexOf(elem[0]) > -1)
 				)
 					return (
 						<p key={index}>
@@ -52,19 +60,27 @@ export default function UniversalModal({
 				return null;
 			})}
 			{characters && (
-				<div id="character-container">
-					{characters.map((c) => {
-						const linkProps = {
-							href: `/characters/`,
-							onClick: () => handleQueryParams(c.name),
-						};
-						return (
-							<A key={c.name} {...setLinkProps(linkProps)}>
-								<img src={c.image} alt={c.name} className="episode-character" />
-							</A>
-						);
-					})}
-				</div>
+				<>
+					<p>Characters:</p>
+					<div id="character-container">
+						{characters.map((c) => {
+							// we could define some props for the A component like href and onclick
+							const linkProps = {
+								href: `/characters/`,
+								onClick: () => handleQueryParams(c.name),
+							};
+							return (
+								<A key={c.name} {...setLinkProps(linkProps)}>
+									<img
+										src={c.image}
+										alt={c.name}
+										className="episode-character"
+									/>
+								</A>
+							);
+						})}
+					</div>
+				</>
 			)}
 		</div>
 	);

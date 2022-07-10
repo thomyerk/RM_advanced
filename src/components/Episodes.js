@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import UniversalModal from "./Modal";
 import ReactPaginate from "react-paginate";
 import useEpisodes from "./hooks/use-episodes";
@@ -23,7 +23,7 @@ export default function Episodes(props) {
 		return null;
 	}
 
-	if (episodesFetched == 404) {
+	if (episodesFetched === 404) {
 		return "Oopss....theres nothing, Morty. Please reload";
 	}
 

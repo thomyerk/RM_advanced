@@ -10,6 +10,7 @@ const useEpisodes = () => {
 	const [episodeFilterTerm, setEpisodeFilterTerm] = useState(null);
 	const [episodesFetched, setUrl] = useFetch(mainUrls(1).episodeSearchRoute);
 
+	// handling modal open and close
 	const handleOpen = (target) => {
 		setSelectedEpisode(
 			episodesFetched.results.find((x) => x.id === parseInt(target))
@@ -21,18 +22,21 @@ const useEpisodes = () => {
 		setOpenModal(false);
 	};
 
+	// handle paginator and the page number for fetching
 	const handlePageClick = (e) => {
 		setUrl(mainUrls(e.selected + 1, episodeFilterTerm).episodeSearchRoute);
 		setCurrentPage(e.selected + 1);
 		window.scrollTo(0, 0);
 	};
 
+	// set the url with the filter term of the episode
+
 	useEffect(() => {
 		setUrl(mainUrls(1, episodeFilterTerm).episodeSearchRoute);
 		setCurrentPage(1);
 	}, [episodeFilterTerm]);
 
-	// debounce and loading
+	// debounce and loading indicator
 
 	const debouncedTerm = useDebounce(episodeFilterTerm);
 

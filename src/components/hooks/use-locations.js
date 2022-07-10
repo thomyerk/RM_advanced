@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import useFetch from "../../api/useFetch";
 import { mainUrls } from "../../api/dataRoutes";
 import useDebounce from "./use-debounce";
@@ -10,6 +10,7 @@ const useLocations = ({ history, setHistory }) => {
 	const [locationFilter, setLocationFilter] = useState(null);
 	const [locationsFetched, setUrl] = useFetch(mainUrls(1).locationSearchRoute);
 
+	// handle paginator of the page and for the fetch
 	const handlePageClick = (e) => {
 		setUrl(mainUrls(e.selected + 1, locationFilter).locationSearchRoute);
 		setCurrentPage(e.selected + 1);

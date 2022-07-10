@@ -6,7 +6,7 @@ export const mainUrls = (page, searchTerm) => {
 		locationSearchRoute: `https://rickandmortyapi.com/api/location/?page=${page}${
 			searchTerm ? `&name=${searchTerm}` : ""
 		}`,
-		filterSearch: `https://rickandmortyapi.com/api/character/?page=${page}${
+		characterSearchRoute: `https://rickandmortyapi.com/api/character/?page=${page}${
 			searchTerm && searchTerm.gender !== ""
 				? `&gender=${searchTerm.gender}`
 				: ""

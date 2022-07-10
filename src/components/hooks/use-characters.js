@@ -10,6 +10,7 @@ const useCharacters = (history, setHistory) => {
 	const [selectedCharacter, setSelectedCharacter] = useState("");
 	const [queryParams] = useQueryParams();
 	const [nameFilter, setNameFilter] = useState(queryParams.name);
+	// filter object for advanced filtering of characters
 	const [filterObject, setFilterObject] = useState({
 		name: nameFilter,
 		gender: "",
@@ -18,19 +19,29 @@ const useCharacters = (history, setHistory) => {
 		species: "",
 	});
 
-	// pager and fetch data according to selected page number
+	// clear character name filter after clearing query params
+
+	useEffect(() => {
+		if (!queryParams.name) {
+			setNameFilter("");
+		}
+	}, [queryParams]);
+
+	// pager and fetch data according to selected page number, fetching happens through custom hook useFetch, and managed by giving it the right url
 	const handlePageClick = (e) => {
-		setUrl(mainUrls(e.selected + 1, filterObject).filterSearch);
+		setUrl(mainUrls(e.selected + 1, filterObject).characterSearchRoute);
 		setCurrentPage(e.selected + 1);
 		window.scrollTo(0, 0);
 	};
 
-	// debounce and loading
+	// debounce and loading indicator handling
 
 	const debouncedTerm = useDebounce(nameFilter);
 
 	const [loading, setLoading] = useState(false);
+
 	useEffect(() => {
+		setCurrentPage(1);
 		handleFilter();
 		setLoading(false);
 	}, [debouncedTerm]);
@@ -42,15 +53,16 @@ const useCharacters = (history, setHistory) => {
 		}
 	}, [nameFilter]);
 
-	// basic and filter url setting, and fetching the data
+	// this is the basic data fetching when the component mounted, setUrl used when filters changed
 
 	const [charactersFetched, setUrl] = useFetch(
-		mainUrls(currentPage, filterObject).filterSearch
+		mainUrls(currentPage, filterObject).characterSearchRoute
 	);
 
+	// filtering itself happens here
 	const handleFilter = () => {
 		setCurrentPage(1);
-		setUrl(mainUrls(currentPage, filterObject).filterSearch);
+		setUrl(mainUrls(1, filterObject).characterSearchRoute);
 	};
 
 	// modal open and close
@@ -66,7 +78,7 @@ const useCharacters = (history, setHistory) => {
 		setOpen(false);
 	};
 
-	// selected character for the modal
+	// set selected character for the modal, and save it to history
 	useEffect(() => {
 		if (selectedCharacter !== "") {
 			setHistory([...history, selectedCharacter.name]);
@@ -75,6 +87,7 @@ const useCharacters = (history, setHistory) => {
 
 	// data for modal about the selected character
 	const characterData = Object.entries(selectedCharacter);
+
 	return {
 		setNameFilter,
 		filterObject,
@@ -88,6 +101,7 @@ const useCharacters = (history, setHistory) => {
 		handleOpen,
 		currentPage,
 		open,
+		nameFilter,
 	};
 };
 
