@@ -34,7 +34,8 @@ const Characters = ({ history, setHistory }) => {
 				<div className="search-bar">
 					<input
 						onChange={(e) => setNameFilter(e.currentTarget.value)}
-						defaultValue={filterObject.name}></input>
+						defaultValue={filterObject.name}
+						placeholder="Name"></input>
 					{loading && <LoadingSpinner />}
 				</div>
 				<select
@@ -73,7 +74,9 @@ const Characters = ({ history, setHistory }) => {
 						setFilterObject({ ...filterObject, type: e.currentTarget.value })
 					}
 				/>
-				<button onClick={handleFilter}>Filter</button>
+				<button className="filter-button" onClick={handleFilter}>
+					Filter
+				</button>
 			</div>
 			{charactersFetched.results
 				? charactersFetched.results.map((character) => (

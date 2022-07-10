@@ -9,10 +9,12 @@ import Locations from "./components/Locations";
 import Logo from "./components/Logo";
 import "./style.css";
 import { usePath, A } from "hookrouter";
+import { Component } from "react";
 
 function App() {
 	let charactersButton = process.env.PUBLIC_URL + "/img/characters.jpg";
 	let locationsButton = process.env.PUBLIC_URL + "/img/locations.jpg";
+	let episodesButton = process.env.PUBLIC_URL + "/img/episodes.png";
 	const [history, setHistory] = useLocalStorage("history", []);
 
 	const path = usePath();
@@ -25,7 +27,8 @@ function App() {
 	}, []);
 
 	// TODO: empty queryparams when navigate from episodes then go to characters main page
-	// TODO: episodes button
+	// TODO: listcard to Component
+	// TODO: screen size breakpoints
 
 	return (
 		<div className="App">
@@ -39,8 +42,7 @@ function App() {
 					<img src={locationsButton} alt={"locationsButton"} />
 				</A>
 				<A href="/episodes">
-					Episodes
-					<img src={locationsButton} alt={"episodesButton"} />
+					<img src={episodesButton} alt={"episodesButton"} />
 				</A>
 			</div>
 			<div className="content">
