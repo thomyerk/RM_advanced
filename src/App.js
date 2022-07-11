@@ -2,6 +2,7 @@ import { A, setLinkProps, usePath, useQueryParams } from "hookrouter";
 import React, { useEffect } from "react";
 import "./App.css";
 import Characters from "./components/Characters";
+import Content from "./components/Content";
 import Description from "./components/Description";
 import Episodes from "./components/Episodes";
 import History from "./components/History";
@@ -55,12 +56,29 @@ function App() {
 				</A>
 			</div>
 			<div className="content">
-				{path.includes("/characters") ? (
+				{/* {path.includes("/characters") ? (
 					<Characters setHistory={setHistory} history={history} />
 				) : path.includes("/locations") ? (
 					<Locations setHistory={setHistory} history={history} />
 				) : path.includes("/episodes") ? (
 					<Episodes />
+				) : (
+					<Description />
+				)} */}
+				{path.includes("/characters") ? (
+					<Content
+						setHistory={setHistory}
+						history={history}
+						contentType={"characters"}
+					/>
+				) : path.includes("/locations") ? (
+					<Locations
+						setHistory={setHistory}
+						history={history}
+						contentType={"locations"}
+					/>
+				) : path.includes("/episodes") ? (
+					<Episodes contentType={"episodes"} />
 				) : (
 					<Description />
 				)}
