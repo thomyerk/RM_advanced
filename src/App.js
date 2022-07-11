@@ -1,13 +1,10 @@
 import { A, setLinkProps, usePath, useQueryParams } from "hookrouter";
 import React, { useEffect } from "react";
 import "./App.css";
-import Characters from "./components/Characters";
 import Content from "./components/Content";
 import Description from "./components/Description";
-import Episodes from "./components/Episodes";
 import History from "./components/History";
 import useLocalStorage from "./components/hooks/useLocalStorage";
-import Locations from "./components/Locations";
 import Logo from "./components/Logo";
 import "./style.css";
 
@@ -56,29 +53,24 @@ function App() {
 				</A>
 			</div>
 			<div className="content">
-				{/* {path.includes("/characters") ? (
-					<Characters setHistory={setHistory} history={history} />
-				) : path.includes("/locations") ? (
-					<Locations setHistory={setHistory} history={history} />
-				) : path.includes("/episodes") ? (
-					<Episodes />
-				) : (
-					<Description />
-				)} */}
 				{path.includes("/characters") ? (
 					<Content
 						setHistory={setHistory}
 						history={history}
-						contentType={"characters"}
+						contentType={"character"}
 					/>
 				) : path.includes("/locations") ? (
-					<Locations
+					<Content
 						setHistory={setHistory}
 						history={history}
-						contentType={"locations"}
+						contentType={"location"}
 					/>
 				) : path.includes("/episodes") ? (
-					<Episodes contentType={"episodes"} />
+					<Content
+						contentType={"episode"}
+						setHistory={setHistory}
+						history={history}
+					/>
 				) : (
 					<Description />
 				)}

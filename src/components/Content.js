@@ -22,6 +22,18 @@ const Content = ({ history, setHistory, contentType }) => {
 		selectedItem,
 	} = useContent(history, setHistory, contentType);
 
+	if (!contentFetched) {
+		return null;
+	}
+
+	if (contentFetched === 404) {
+		return (
+			<div className="error-message">
+				Oopss....theres nothing, Morty. Please reload
+			</div>
+		);
+	}
+
 	return (
 		<>
 			<div className="filter-container">
@@ -33,7 +45,7 @@ const Content = ({ history, setHistory, contentType }) => {
 					{loading && <LoadingSpinner />}
 				</div>
 				{/* all filters will be applied on the filter button, except the name which use live search */}
-				{contentType === "characters" && (
+				{contentType === "character" && (
 					<>
 						<select
 							className="filter"
@@ -93,19 +105,19 @@ const Content = ({ history, setHistory, contentType }) => {
 				contentFetched.results.map((content) => (
 					<div
 						key={content.id}
-						onClick={(ev) => handleOpen(ev.target.id)}
+						onClick={() => handleOpen(content.id)}
 						className="listCard">
 						<h1>{content.name}</h1>
-						{contentType === "characters" && (
+						{contentType === "character" && (
 							<>
 								<img id={content.id} src={content.image} alt={content.name} />
 								<p>{content.species}</p>
 							</>
 						)}
-						{contentType === "locations" && (
+						{contentType === "location" && (
 							<p id={content.id}>{content.type}</p>
 						)}
-						{contentType === "episodes" && (
+						{contentType === "episode" && (
 							<p id={content.id}>{content.episode}</p>
 						)}
 					</div>
@@ -119,7 +131,9 @@ const Content = ({ history, setHistory, contentType }) => {
 				open={open}
 				closeHandler={handleClose}
 				episodeCharacters={
-					contentType === "episodes" ? selectedItem.characters : null
+					contentType === "episode" && selectedItem && selectedItem !== {}
+						? selectedItem.characters
+						: null
 				}
 			/>
 			<ReactPaginate

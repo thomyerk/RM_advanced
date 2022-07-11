@@ -7,7 +7,7 @@ import useDebounce from "./use-debounce";
 const useContent = (history, setHistory, contentType) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [open, setOpen] = useState(false);
-	const [selectedItem, setSelectedItem] = useState("");
+	const [selectedItem, setSelectedItem] = useState({});
 	const [queryParams] = useQueryParams();
 	const [nameFilter, setNameFilter] = useState(queryParams.name);
 	// filter object for advanced filtering of characters
@@ -18,8 +18,11 @@ const useContent = (history, setHistory, contentType) => {
 		status: "",
 		species: "",
 	});
+	// this is the basic data fetching when the component mounted, setUrl used when filters changed
 
-	console.log("contentType", mainUrls()[contentType]);
+	const [contentFetched, setUrl] = useFetch(
+		mainUrls(currentPage, filterObject, contentType).filterRoute
+	);
 
 	// clear character name filter after clearing query params
 
@@ -31,7 +34,7 @@ const useContent = (history, setHistory, contentType) => {
 
 	// pager and fetch data according to selected page number, fetching happens through custom hook useFetch, and managed by giving it the right url
 	const handlePageClick = (e) => {
-		setUrl(mainUrls(e.selected + 1, filterObject).contentType);
+		setUrl(mainUrls(e.selected + 1, filterObject, contentType).filterRoute);
 		setCurrentPage(e.selected + 1);
 		window.scrollTo(0, 0);
 	};
@@ -44,9 +47,9 @@ const useContent = (history, setHistory, contentType) => {
 
 	useEffect(() => {
 		setCurrentPage(1);
-		handleFilter();
+		setUrl(mainUrls(1, filterObject, contentType).filterRoute);
 		setLoading(false);
-	}, [debouncedTerm]);
+	}, [debouncedTerm, contentType]);
 
 	useEffect(() => {
 		setFilterObject({ ...filterObject, name: nameFilter });
@@ -55,16 +58,10 @@ const useContent = (history, setHistory, contentType) => {
 		}
 	}, [nameFilter]);
 
-	// this is the basic data fetching when the component mounted, setUrl used when filters changed
-
-	const [contentFetched, setUrl] = useFetch(
-		mainUrls(currentPage, filterObject).contentType
-	);
-
 	// filtering itself happens here
 	const handleFilter = () => {
 		setCurrentPage(1);
-		setUrl(mainUrls(1, filterObject).contentType);
+		setUrl(mainUrls(1, filterObject, contentType).filterRoute);
 	};
 
 	// modal open and close
@@ -85,6 +82,7 @@ const useContent = (history, setHistory, contentType) => {
 		if (selectedItem !== "") {
 			setHistory([...history, selectedItem.name]);
 		}
+		setOpen(false);
 	}, [selectedItem]);
 
 	// data for modal about the selected character
@@ -104,6 +102,7 @@ const useContent = (history, setHistory, contentType) => {
 		currentPage,
 		open,
 		nameFilter,
+		selectedItem,
 	};
 };
 
